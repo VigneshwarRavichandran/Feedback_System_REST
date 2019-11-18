@@ -13,10 +13,11 @@ class UserView(viewsets.ModelViewSet):
 		username = request.POST.get('username')
 		password = request.POST.get('password')
 		email = request.POST.get('email')
-		user = User.objects.get_or_create(username, email, password)
-		if created:
-			return response({'message' : 'User created successfully!!'}, status=200)
-		return response({'message' : 'Sorry! The user already exsists'}, status=200)
+		try:
+			user = User.objects.create_user(username, email, password)
+			return Response({'message' : 'User created successfully!!'}, status=200)
+		except:
+			return Response({'message' : 'Sorry! The user already exsists'}, status=200)
 
 	def list(self, request):
 		serializer = UserSerializer(self.get_queryset(), many=True)
