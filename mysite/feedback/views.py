@@ -32,3 +32,9 @@ class UserView(viewsets.ModelViewSet):
 		user = get_object_or_404(self.get_queryset(), pk=pk)
 		user.delete()
 		return Response(status=200)
+
+def login(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		return Response({'message' : username}, status=200)
